@@ -40,14 +40,10 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    .card img {
-      width: 100%;
-      border-radius: 10px;
-    }
-
     .price {
       color: green;
       font-weight: bold;
+      margin: 10px 0;
     }
 
     button {
@@ -58,7 +54,10 @@
       border-radius: 8px;
       cursor: pointer;
       width: 100%;
-      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #1ebe5d;
     }
 
     .carrinho {
@@ -66,12 +65,6 @@
       margin: 20px;
       padding: 20px;
       border-radius: 12px;
-    }
-
-    input {
-      padding: 8px;
-      margin-top: 10px;
-      width: 200px;
     }
 
     .finalizar {
@@ -84,36 +77,79 @@
 
 <header>
   <h1>🕯️ Velas da Fé</h1>
+  <p>Faça seu pedido direto pelo WhatsApp</p>
 </header>
 
 <h2>Produtos</h2>
 
 <div class="container">
+
   <div class="card">
-    <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59">
-    <h3>Velas Palito</h3>
+    <h3>Velas Palito (unidade)</h3>
     <p class="price">R$ 1,50</p>
     <button onclick="addCarrinho('Velas Palito unidade', 1.5)">Adicionar</button>
   </div>
 
   <div class="card">
-    <h3>Palito kg</h3>
+    <h3>Velas Palito (kg)</h3>
     <p class="price">R$ 20,00</p>
     <button onclick="addCarrinho('Velas Palito kg', 20)">Adicionar</button>
   </div>
+
+  <div class="card">
+    <h3>Velas Palito Bicolor (kg)</h3>
+    <p class="price">R$ 22,00</p>
+    <button onclick="addCarrinho('Velas Palito Bicolor kg', 22)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <h3>Vela 7 dias Bicolor (250g)</h3>
+    <p class="price">R$ 10,00</p>
+    <button onclick="addCarrinho('Vela 7 dias Bicolor', 10)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <h3>Vela 7 dias Mel (250g)</h3>
+    <p class="price">R$ 12,00</p>
+    <button onclick="addCarrinho('Vela 7 dias Mel', 12)">Adicionar</button>
+  </div>
+
+</div>
+
+<h2>Caixas</h2>
+
+<div class="container">
+
+  <div class="card">
+    <h3>Caixa 6 velas 7 dias Bicolor</h3>
+    <p class="price">R$ 48,00</p>
+    <button onclick="addCarrinho('Caixa 6 velas bicolor', 48)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <h3>Caixa 6 velas 7 dias</h3>
+    <p class="price">R$ 36,00</p>
+    <button onclick="addCarrinho('Caixa 6 velas', 36)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <h3>Caixa 100 velas palito bicolor</h3>
+    <p class="price">R$ 74,00</p>
+    <button onclick="addCarrinho('Caixa 100 velas bicolor', 74)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <h3>Caixa 100 velas palito</h3>
+    <p class="price">R$ 70,00</p>
+    <button onclick="addCarrinho('Caixa 100 velas', 70)">Adicionar</button>
+  </div>
+
 </div>
 
 <div class="carrinho">
   <h2>🛒 Carrinho</h2>
   <ul id="carrinho"></ul>
-
   <h3>Total: R$ <span id="total">0</span></h3>
-
-  <h3>📍 Calcular Frete</h3>
-  <input type="text" id="cep" placeholder="Digite seu CEP">
-  <button onclick="calcularFrete()">Calcular Frete</button>
-
-  <p id="freteValor"></p>
 
   <button class="finalizar" onclick="finalizar()">Finalizar no WhatsApp</button>
 </div>
@@ -121,7 +157,6 @@
 <script>
   let carrinho = [];
   let total = 0;
-  let frete = 0;
 
   function addCarrinho(nome, preco) {
     carrinho.push(nome + ' - R$ ' + preco);
@@ -139,21 +174,7 @@
       lista.appendChild(li);
     });
 
-    document.getElementById('total').textContent = (total + frete).toFixed(2);
-  }
-
-  function calcularFrete() {
-    let cep = document.getElementById('cep').value;
-
-    if (cep == "03682000") {
-      frete = 5;
-      document.getElementById('freteValor').innerText = "Frete: R$ 5,00";
-    } else {
-      frete = 10;
-      document.getElementById('freteValor').innerText = "Frete: R$ 10,00";
-    }
-
-    atualizar();
+    document.getElementById('total').textContent = total.toFixed(2);
   }
 
   function finalizar() {
@@ -163,8 +184,7 @@
       mensagem += "- " + item + "%0A";
     });
 
-    mensagem += "%0AFrete: R$ " + frete.toFixed(2);
-    mensagem += "%0ATotal: R$ " + (total + frete).toFixed(2);
+    mensagem += "%0ATotal: R$ " + total.toFixed(2);
 
     let numero = "5511986339143";
 
