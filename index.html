@@ -3,209 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velas da Fé - Velas Palito e 7 Dias | Atacado e Varejo</title>
+    <title>Velas da Fé</title>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #f8f1e9 0%, #d4a574 100%); }
-        header { background: #8B4513; color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        nav h1 { font-size: 1.8rem; }
+
+        body { font-family: Arial; background: linear-gradient(135deg, #f5f7fa, #c3cfe2); }
+
+        header { background: #8B4513; color: white; padding: 1rem; position: fixed; width: 100%; top: 0; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
         nav ul { display: flex; list-style: none; }
-        nav ul li { margin-left: 2rem; }
-        nav ul li a { color: white; text-decoration: none; font-weight: bold; transition: color 0.3s; }
-        nav ul li a:hover { color: #FFD700; }
-        #cart-icon { position: relative; cursor: pointer; font-size: 1.5rem; }
-        #cart-count { position: absolute; top: -8px; right: -8px; background: #FFD700; color: #8B4513; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; }
-        
-        main { margin-top: 80px; max-width: 1200px; margin: 80px auto 0; padding: 2rem; }
-        .hero { text-align: center; padding: 4rem 0; background: rgba(255,255,255,0.9); border-radius: 20px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .hero h2 { font-size: 3rem; color: #8B4513; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; color: #666; }
-        .whatsapp-btn { background: #25D366; color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 1rem; transition: transform 0.3s; }
-        .whatsapp-btn:hover { transform: scale(1.05); }
-        
-        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
-        .product-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s; border: 3px solid transparent; }
-        .product-card:hover { transform: translateY(-10px); border-color: #8B4513; }
-        .product-card img { width: 100%; height: 220px; object-fit: cover; background: #f0f0f0; }
-        .product-info { padding: 1.5rem; text-align: center; }
-        .product-info h3 { color: #8B4513; margin-bottom: 0.5rem; font-size: 1.3rem; }
-        .product-info p { color: #666; margin-bottom: 1rem; font-size: 1.1rem; }
-        .price { font-size: 1.8rem; color: #8B4513; font-weight: bold; margin-bottom: 1rem; }
-        .quantity-container { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; }
-        .quantity-btn { background: #f8f9fa; border: 2px solid #ddd; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; font-weight: bold; transition: all 0.3s; }
-        .quantity-btn:hover { background: #8B4513; color: white; }
-        .quantity-input { width: 70px; padding: 0.5rem; border: 2px solid #ddd; border-radius: 8px; text-align: center; font-size: 1.2rem; font-weight: bold; }
-        .btn { background: #8B4513; color: white; border: none; padding: 1rem 1.5rem; border-radius: 25px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: all 0.3s; width: 100%; }
-        .btn:hover { background: #A0522D; transform: scale(1.02); }
-        .btn:active { transform: scale(0.98); }
-        
-        #cart { position: fixed; top: 100px; right: -420px; width: 420px; height: calc(100vh - 100px); background: white; box-shadow: -5px 0 20px rgba(0,0,0,0.3); transition: right 0.3s; z-index: 2000; padding: 2rem; overflow-y: auto; }
+        nav ul li { margin-left: 20px; }
+
+        main { margin-top: 80px; padding: 20px; }
+
+        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+
+        .card { background: white; padding: 15px; border-radius: 10px; text-align: center; }
+
+        .price { color: green; font-weight: bold; }
+
+        button { background: #25d366; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; }
+
+        #cart { position: fixed; right: -300px; top: 100px; background: white; width: 300px; padding: 20px; transition: 0.3s; }
         #cart.open { right: 0; }
-        #cart h3 { margin-bottom: 1rem; color: #8B4513; font-size: 1.5rem; text-align: center; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-bottom: 1px solid #eee; font-size: 1rem; }
-        .cart-item div:first-child { flex: 1; }
-        .cart-item strong { display: block; color: #8B4513; }
-        .cart-item small { color: #666; }
-        .cart-item button { background: #dc3545; color: white; border: none; padding: 0.4rem 1rem; border-radius: 15px; cursor: pointer; font-size: 0.9rem; margin-left: 1rem; }
-        .cart-total { font-size: 2rem; font-weight: bold; color: #8B4513; margin: 2rem 0; text-align: center; padding: 1.5rem; background: #f8f1e9; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        #checkout { width: 100%; background: #25D366 !important; font-size: 1.3rem; margin-top: 1rem; padding: 1.2rem; }
-        #close-cart { width: 100%; background: #666; margin-top: 0.5rem; }
-        
-        .contact { background: rgba(255,255,255,0.9); padding: 3rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        form { max-width: 600px; margin: 2rem auto; display: flex; flex-direction: column; gap: 1rem; }
-        input, textarea { padding: 1rem; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; }
-        footer { background: #8B4513; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
-        
-        @media (max-width: 768px) { 
-            nav ul { flex-direction: column; gap: 1rem; } 
-            .hero h2 { font-size: 2.2rem; } 
-            #cart { width: 100%; right: -100%; } 
-            .products { grid-template-columns: 1fr; }
-            .quantity-container { flex-wrap: wrap; }
-        }
     </style>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <h1>🙏 Velas da Fé</h1>
-            <ul>
-                <li><a href="#home">Início</a></li>
-                <li><a href="#produtos">Produtos</a></li>
-                <li><a href="#contato">Contato</a></li>
-                <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section id="home" class="hero">
-            <h2>Velas da Fé</h2>
-            <p><strong>🕯️ Velas Palito e 7 Dias</strong><br>Atacado e Varejo | Preços imbatíveis | Fé e Luz!</p>
-            <a href="https://wa.me/5511986339143?text=Olá! Vi o site Velas da Fé e quero fazer um pedido!" class="whatsapp-btn">Fale pelo WhatsApp 📱</a>
-        </section>
+<header>
+    <nav>
+        <h1>🕯️ Velas da Fé</h1>
+        <ul>
+            <li><a href="#">Produtos</a></li>
+            <li><a href="#" id="cart-icon">🛒 <span id="count">0</span></a></li>
+        </ul>
+    </nav>
+</header>
 
-        <section id="produtos">
-            <h2 style="text-align: center; font-size: 2.5rem; color: #8B4513; margin-bottom: 2rem;">Nossos Produtos</h2>
-            <div class="products" id="products"></div>
-        </section>
+<main>
 
-        <section id="contato" class="contact">
-            <h2>📞 Peça Orçamento ou Faça Encomenda</h2>
-            <form id="contact-form">
-                <input type="text" placeholder="Seu Nome" required>
-                <input type="email" placeholder="Seu Email" required>
-                <input type="tel" placeholder="Seu WhatsApp" required>
-                <textarea placeholder="Qual produto? Quantidade? Entrega para onde?" rows="5" required></textarea>
-                <button type="submit" class="btn">Enviar Pedido 🙏</button>
-            </form>
-        </section>
-    </main>
+<h2>Produtos</h2>
 
-    <div id="cart">
-        <h3>🛒 Seu Pedido - Velas da Fé</h3>
-        <div id="cart-items"></div>
-        <div class="cart-total" id="cart-total">Total: R$ 0,00</div>
-        <button class="btn" id="checkout">🚀 Finalizar Pedido no WhatsApp</button>
-        <button class="btn" id="close-cart">Fechar Carrinho ✕</button>
-    </div>
+<div class="products" id="products"></div>
 
-    <footer>
-        <p>🙏 <strong>Velas da Fé</strong> | Velas para todos os momentos de fé<br>
-        📱 WhatsApp: <a href="https://wa.me/5511986339143" style="color: #FFD700;">+55 11 98633-9143</a><br>
-        © 2024 - Atacado e Varejo | Luz e Proteção</p>
-    </footer>
+</main>
 
-    <script>
-        // PRODUTOS DA VELAS DA FÉ
-        const products = [
-            { id: 1, name: 'Velas Palitos', price: 1.50, unit: 'unidade(s)', img: 'https://via.placeholder.com/320x220/8B4513/FFFFFF?text=Velas+Palito', desc: 'R$ 1,50/unidade' },
-            { id: 2, name: 'Velas Palito', price: 20.00, unit: 'kg', img: 'https://via.placeholder.com/320x220/A0522D/FFFFFF?text=Palito+KG', desc: 'R$ 20,00/kg' },
-            { id: 3, name: 'Velas Palito Bicolor', price: 22.00, unit: 'kg', img: 'https://via.placeholder.com/320x220/FFD700/8B4513?text=Palito+Bicolor', desc: 'R$ 22,00/kg' },
-            { id: 4, name: 'Velas 7 Dias Bicolor', price: 10.00, unit: 'unidade(s) 250g', img: 'https://via.placeholder.com/320x220/D2691E/FFFFFF?text=7+Dias+Bicolor', desc: 'R$ 10,00/unidade (250g)' },
-            { id: 5, name: 'Velas 7 Dias de Mel', price: 12.00, unit: 'unidade(s) 250g', img: 'https://via.placeholder.com/320x220/daa520/000?text=7+Dias+Mel', desc: 'R$ 12,00/unidade (250g)' },
-            { id: 6, name: 'Caixa 6 Velas 7 Dias Bicolor', price: 48.00, unit: 'caixa(s)', img: 'https://via.placeholder.com/320x220/FF69B4/FFFFFF?text=Caixa+6+Bicolor', desc: 'R$ 48,00/caixa' },
-            { id: 7, name: 'Caixa 6 Velas 7 Dias', price: 36.00, unit: 'caixa(s)', img: 'https://via.placeholder.com/320x220/8B4513/FFFFFF?text=Caixa+6+Velas', desc: 'R$ 36,00/caixa' },
-            { id: 8, name: 'Caixa 100 Velas Palito Bicolor', price: 74.00, unit: 'caixa(s)', img: 'https://via.placeholder.com/320x220/FFD700/8B4513?text=Caixa+100+Bicolor', desc: 'R$ 74,00/caixa' },
-            { id: 9, name: 'Caixa 100 Velas Palito', price: 70.00, unit: 'caixa(s)', img: 'https://via.placeholder.com/320x220/A0522D/FFFFFF?text=Caixa+100+Palito', desc: 'R$ 70,00/caixa' }
-        ];
+<div id="cart">
+    <h3>Carrinho</h3>
+    <div id="items"></div>
+    <h3 id="total">Total: R$ 0</h3>
+    <button onclick="finalizar()">Finalizar no WhatsApp</button>
+</div>
 
-        let cart = [];
-        let quantityInputs = {};
+<script>
+const products = [
+    { id: 1, name: 'Velas Palito (unidade)', price: 1.50 },
+    { id: 2, name: 'Velas Palito (kg)', price: 20.00 },
+    { id: 3, name: 'Velas Palito Bicolor (kg)', price: 22.00 },
+    { id: 4, name: 'Vela 7 Dias Bicolor', price: 10.00 },
+    { id: 5, name: 'Vela 7 Dias Mel', price: 12.00 },
+    { id: 6, name: 'Caixa 6 Velas 7 Dias Bicolor', price: 48.00 },
+    { id: 7, name: 'Caixa 6 Velas 7 Dias', price: 36.00 },
+    { id: 8, name: 'Caixa 100 Velas Palito Bicolor', price: 74.00 },
+    { id: 9, name: 'Caixa 100 Velas Palito', price: 70.00 }
+];
 
-        // Renderizar produtos com controles de quantidade
-        function renderProducts() {
-            const container = document.getElementById('products');
-            container.innerHTML = products.map(product => {
-                const productId = `qty-${product.id}`;
-                quantityInputs[product.id] = 1;
-                return `
-                <div class="product-card">
-                    <img src="${product.img}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/320x220/f0f0f0/8B4513?text=${product.name.replace(/\\s/g,'+')}';">
-                    <div class="product-info">
-                        <h3>${product.name}</h3>
-                        <p>${product.desc}</p>
-                        <div class="price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
-                        <div class="quantity-container">
-                            <button class="quantity-btn" onclick="changeQuantity(${product.id}, -1)">−</button>
-                            <input type="number" class="quantity-input" id="${productId}" value="1" min="1" onchange="updateQuantity(${product.id}, this.value)">
-                            <button class="quantity-btn" onclick="changeQuantity(${product.id}, 1)">+</button>
-                        </div>
-                        <button class="btn" onclick="addToCart(${product.id})">🛒 Adicionar ${product.unit}</button>
-                    </div>
-                </div>
-                `;
-            }).join('');
-        }
+let cart = [];
 
-        function changeQuantity(id, delta) {
-            const input = document.getElementById(`qty-${id}`);
-            let value = parseInt(input.value) || 1;
-            value = Math.max(1, value + delta);
-            input.value = value;
-            quantityInputs[id] = value;
-        }
+function render() {
+    document.getElementById('products').innerHTML = products.map(p => `
+        <div class="card">
+            <h3>${p.name}</h3>
+            <p class="price">R$ ${p.price}</p>
+            <button onclick="add(${p.id})">Adicionar</button>
+        </div>
+    `).join('');
+}
 
-        function updateQuantity(id, value) {
-            quantityInputs[id] = parseInt(value) || 1;
-        }
+function add(id) {
+    const item = cart.find(i => i.id === id);
+    if (item) item.qtd++;
+    else cart.push({ ...products.find(p => p.id === id), qtd: 1 });
+    update();
+}
 
-        // Carrinho
-        function addToCart(id) {
-            const product = products.find(p => p.id === id);
-            const quantity = quantityInputs[id] || 1;
-            
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.quantity += quantity;
-            } else {
-                cart.push({ ...product, quantity: quantity });
-            }
-            updateCart();
-            
-            // Reset quantidade
-            document.getElementById(`qty-${id}`).value = 1;
-            quantityInputs[id] = 1;
-            
-            // Feedback visual
-            const btn = event.target;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '✅ Adicionado!';
-            btn.style.background = '#28a745';
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.background = '#8B4513';
-            }, 1500);
-        }
+function update() {
+    document.getElementById('count').innerText = cart.reduce((a,b)=>a+b.qtd,0);
 
-        function updateCart() {
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cart-count').textContent = count;
-            
-            const items = document.getElementById('cart-items');
-            items.innerHTML = cart.length ? cart.map((item, index) => `
-                <div class="cart-item">
-                    <div>
-                        <strong>${item.name}</strong>
-                        <small>${item.quantity} ${item.unit} • R$ ${item.price.toFixed(2).replace('.',
+    document.getElementById('items').innerHTML = cart.map(i => `
+        <p>${i.name} x${i.qtd}</p>
+    `).join('');
+
+    let total = cart.reduce((a,b)=>a+(b.price*b.qtd),0);
+    document.getElementById('total').innerText = "Total: R$ " + total.toFixed(2);
+}
+
+function finalizar() {
+    let msg = "Pedido:%0A";
+    cart.forEach(i => {
+        msg += `${i.name} x${i.qtd}%0A`;
+    });
+
+    let total = cart.reduce((a,b)=>a+(b.price*b.qtd),0);
+    msg += `%0ATotal: R$ ${total.toFixed(2)}`;
+
+    window.open(`https://wa.me/5511986339143?text=${msg}`);
+}
+
+document.getElementById('cart-icon').onclick = () => {
+    document.getElementById('cart').classList.toggle('open');
+}
+
+render();
+</script>
+
+</body>
+</html>
