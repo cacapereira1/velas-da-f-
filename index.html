@@ -2,52 +2,80 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Velas da Fé</title>
+
   <style>
     body {
       font-family: Arial;
       margin: 0;
-      background: #111;
-      color: white;
-      text-align: center;
+      background: #f5f5f5;
     }
 
     header {
-      padding: 30px;
-      background: #222;
-    }
-
-    h1 {
-      margin-bottom: 10px;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 15px 30px;
-      background: #25D366;
+      background: linear-gradient(90deg, #f59e0b, #f97316);
       color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: bold;
+      padding: 20px;
+      text-align: center;
     }
 
-    .produtos {
-      padding: 30px;
+    h2 {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
     }
 
     .card {
-      background: #1e1e1e;
-      margin: 15px;
-      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .card img {
+      width: 100%;
       border-radius: 10px;
     }
 
-    .preco {
-      color: gold;
-      font-size: 20px;
-      margin: 10px 0;
+    .price {
+      color: green;
+      font-weight: bold;
+    }
+
+    button {
+      background: #25d366;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .carrinho {
+      background: white;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    input {
+      padding: 8px;
+      margin-top: 10px;
+      width: 200px;
+    }
+
+    .finalizar {
+      background: #f97316;
     }
   </style>
 </head>
@@ -56,43 +84,93 @@
 
 <header>
   <h1>🕯️ Velas da Fé</h1>
-  <p>Velas espirituais para proteção, amor e prosperidade</p>
-
-  <a class="btn" href="https://wa.me/5511986339143?text=Olá!%20Quero%20saber%20mais%20sobre%20as%20velas">
-    Falar no WhatsApp
-  </a>
 </header>
 
-<section class="produtos">
+<h2>Produtos</h2>
 
+<div class="container">
   <div class="card">
-    <h2>Vela Nossa Senhora</h2>
-    <p>Proteção para sua família</p>
-    <div class="preco">R$ 19,90</div>
-    <a class="btn" href="https://wa.me/5511986339143?text=Quero%20a%20Vela%20Nossa%20Senhora">
-      Comprar
-    </a>
+    <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59">
+    <h3>Velas Palito</h3>
+    <p class="price">R$ 1,50</p>
+    <button onclick="addCarrinho('Velas Palito unidade', 1.5)">Adicionar</button>
   </div>
 
   <div class="card">
-    <h2>Vela de Oxum</h2>
-    <p>Amor e prosperidade</p>
-    <div class="preco">R$ 22,90</div>
-    <a class="btn" href="https://wa.me/5511986339143?text=Quero%20a%20Vela%20de%20Oxum">
-      Comprar
-    </a>
+    <h3>Palito kg</h3>
+    <p class="price">R$ 20,00</p>
+    <button onclick="addCarrinho('Velas Palito kg', 20)">Adicionar</button>
   </div>
+</div>
 
-  <div class="card">
-    <h2>Kit 7 Velas</h2>
-    <p>Proteção completa</p>
-    <div class="preco">R$ 99,90</div>
-    <a class="btn" href="https://wa.me/5511986339143?text=Quero%20o%20Kit%207%20Velas">
-      Comprar
-    </a>
-  </div>
+<div class="carrinho">
+  <h2>🛒 Carrinho</h2>
+  <ul id="carrinho"></ul>
 
-</section>
+  <h3>Total: R$ <span id="total">0</span></h3>
+
+  <h3>📍 Calcular Frete</h3>
+  <input type="text" id="cep" placeholder="Digite seu CEP">
+  <button onclick="calcularFrete()">Calcular Frete</button>
+
+  <p id="freteValor"></p>
+
+  <button class="finalizar" onclick="finalizar()">Finalizar no WhatsApp</button>
+</div>
+
+<script>
+  let carrinho = [];
+  let total = 0;
+  let frete = 0;
+
+  function addCarrinho(nome, preco) {
+    carrinho.push(nome + ' - R$ ' + preco);
+    total += preco;
+    atualizar();
+  }
+
+  function atualizar() {
+    let lista = document.getElementById('carrinho');
+    lista.innerHTML = '';
+
+    carrinho.forEach(item => {
+      let li = document.createElement('li');
+      li.textContent = item;
+      lista.appendChild(li);
+    });
+
+    document.getElementById('total').textContent = (total + frete).toFixed(2);
+  }
+
+  function calcularFrete() {
+    let cep = document.getElementById('cep').value;
+
+    if (cep == "03682000") {
+      frete = 5;
+      document.getElementById('freteValor').innerText = "Frete: R$ 5,00";
+    } else {
+      frete = 10;
+      document.getElementById('freteValor').innerText = "Frete: R$ 10,00";
+    }
+
+    atualizar();
+  }
+
+  function finalizar() {
+    let mensagem = "Pedido:%0A";
+
+    carrinho.forEach(item => {
+      mensagem += "- " + item + "%0A";
+    });
+
+    mensagem += "%0AFrete: R$ " + frete.toFixed(2);
+    mensagem += "%0ATotal: R$ " + (total + frete).toFixed(2);
+
+    let numero = "5511986339143";
+
+    window.open(`https://wa.me/${numero}?text=${mensagem}`);
+  }
+</script>
 
 </body>
 </html>
