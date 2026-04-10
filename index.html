@@ -1,196 +1,222 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Velas da Fé</title>
-
-  <style>
-    body {
-      font-family: Arial;
-      margin: 0;
-      background: #f5f5f5;
-    }
-
-    header {
-      background: linear-gradient(90deg, #f59e0b, #f97316);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    h2 {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 15px;
-      width: 220px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .price {
-      color: green;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    button {
-      background: #25d366;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    button:hover {
-      background: #1ebe5d;
-    }
-
-    .carrinho {
-      background: white;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 12px;
-    }
-
-    .finalizar {
-      background: #f97316;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VelaMágica - Velas Palito e 7 Dias | Atacado e Varejo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #f8f1e9 0%, #d4a574 100%); }
+        header { background: #8B4513; color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        nav h1 { font-size: 1.8rem; }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 2rem; }
+        nav ul li a { color: white; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+        nav ul li a:hover { color: #FFD700; }
+        #cart-icon { position: relative; cursor: pointer; font-size: 1.5rem; }
+        #cart-count { position: absolute; top: -8px; right: -8px; background: #FFD700; color: #8B4513; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; }
+        
+        main { margin-top: 80px; max-width: 1200px; margin: 80px auto 0; padding: 2rem; }
+        .hero { text-align: center; padding: 4rem 0; background: rgba(255,255,255,0.9); border-radius: 20px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .hero h2 { font-size: 3rem; color: #8B4513; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; color: #666; }
+        .whatsapp-btn { background: #25D366; color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 1rem; transition: transform 0.3s; }
+        .whatsapp-btn:hover { transform: scale(1.05); }
+        
+        .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+        .product-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s; border: 3px solid transparent; }
+        .product-card:hover { transform: translateY(-10px); border-color: #8B4513; }
+        .product-card img { width: 100%; height: 220px; object-fit: cover; background: #f0f0f0; }
+        .product-info { padding: 1.5rem; text-align: center; }
+        .product-info h3 { color: #8B4513; margin-bottom: 0.5rem; font-size: 1.3rem; }
+        .product-info p { color: #666; margin-bottom: 1rem; font-size: 1.1rem; }
+        .price { font-size: 1.8rem; color: #8B4513; font-weight: bold; margin-bottom: 1rem; }
+        .quantity-input { width: 80px; padding: 0.5rem; border: 2px solid #ddd; border-radius: 8px; text-align: center; font-size: 1.1rem; margin-bottom: 1rem; }
+        .btn { background: #8B4513; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 25px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: all 0.3s; width: 100%; }
+        .btn:hover { background: #A0522D; transform: scale(1.02); }
+        
+        #cart { position: fixed; top: 100px; right: -420px; width: 420px; height: calc(100vh - 100px); background: white; box-shadow: -5px 0 20px rgba(0,0,0,0.3); transition: right 0.3s; z-index: 2000; padding: 2rem; overflow-y: auto; }
+        #cart.open { right: 0; }
+        #cart h3 { margin-bottom: 1rem; color: #8B4513; font-size: 1.5rem; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid #eee; font-size: 1.1rem; }
+        .cart-item button { background: #dc3545; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 15px; cursor: pointer; font-size: 0.9rem; }
+        .cart-total { font-size: 1.8rem; font-weight: bold; color: #8B4513; margin: 1.5rem 0; text-align: center; padding: 1rem; background: #f8f1e9; border-radius: 10px; }
+        #checkout { width: 100%; background: #25D366; font-size: 1.2rem; margin-top: 1rem; }
+        #close-cart { width: 100%; background: #666; margin-top: 0.5rem; }
+        
+        .contact { background: rgba(255,255,255,0.9); padding: 3rem; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        form { max-width: 600px; margin: 2rem auto; display: flex; flex-direction: column; gap: 1rem; }
+        input, textarea { padding: 1rem; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; }
+        footer { background: #8B4513; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
+        
+        @media (max-width: 768px) { 
+            nav ul { flex-direction: column; gap: 1rem; } 
+            .hero h2 { font-size: 2rem; } 
+            #cart { width: 100%; right: -100%; } 
+            .products { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-
 <body>
+    <header>
+        <nav>
+            <h1>🕯️ VelaMágica</h1>
+            <ul>
+                <li><a href="#home">Início</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#contato">Contato</a></li>
+                <li><a href="#" id="cart-icon">🛒 <span id="cart-count">0</span></a></li>
+            </ul>
+        </nav>
+    </header>
 
-<header>
-  <h1>🕯️ Velas da Fé</h1>
-  <p>Faça seu pedido direto pelo WhatsApp</p>
-</header>
+    <main>
+        <section id="home" class="hero">
+            <h2>Velas Palito e 7 Dias</h2>
+            <p><strong>Atacado e Varejo</strong> | Melhores preços do mercado | Entrega rápida!</p>
+            <a href="https://wa.me/5511986339143?text=Olá! Vi seu site e quero fazer um pedido!" class="whatsapp-btn">Fale pelo WhatsApp 📱</a>
+        </section>
 
-<h2>Produtos</h2>
+        <section id="produtos">
+            <h2 style="text-align: center; font-size: 2.5rem; color: #8B4513; margin-bottom: 2rem;">Nossos Produtos</h2>
+            <div class="products" id="products"></div>
+        </section>
 
-<div class="container">
+        <section id="contato" class="contact">
+            <h2>Peça Orçamento ou Faça Encomenda</h2>
+            <form id="contact-form">
+                <input type="text" placeholder="Seu Nome" required>
+                <input type="email" placeholder="Seu Email" required>
+                <input type="tel" placeholder="Seu WhatsApp" required>
+                <textarea placeholder="Qual produto? Quantidade? Entrega para onde?" rows="5" required></textarea>
+                <button type="submit" class="btn">Enviar Pedido</button>
+            </form>
+        </section>
+    </main>
 
-  <div class="card">
-    <h3>Velas Palito (unidade)</h3>
-    <p class="price">R$ 1,50</p>
-    <button onclick="addCarrinho('Velas Palito unidade', 1.5)">Adicionar</button>
-  </div>
+    <div id="cart">
+        <h3>🛒 Seu Pedido</h3>
+        <div id="cart-items"></div>
+        <div class="cart-total" id="cart-total">Total: R$ 0,00</div>
+        <button class="btn" id="checkout">🚀 Finalizar Pedido (WhatsApp)</button>
+        <button class="btn" id="close-cart">Fechar Carrinho</button>
+    </div>
 
-  <div class="card">
-    <h3>Velas Palito (kg)</h3>
-    <p class="price">R$ 20,00</p>
-    <button onclick="addCarrinho('Velas Palito kg', 20)">Adicionar</button>
-  </div>
+    <footer>
+        <p>🕯️ VelaMágica | Velas para todos os gostos<br>
+        📱 WhatsApp: <a href="https://wa.me/5511986339143" style="color: #FFD700;">+55 11 98633-9143</a><br>
+        © 2024 - Atacado e Varejo</p>
+    </footer>
 
-  <div class="card">
-    <h3>Velas Palito Bicolor (kg)</h3>
-    <p class="price">R$ 22,00</p>
-    <button onclick="addCarrinho('Velas Palito Bicolor kg', 22)">Adicionar</button>
-  </div>
+    <script>
+        // SEUS PRODUTOS REAIS
+        const products = [
+            { id: 1, name: 'Velas Palitos', price: 1.50, unit: 'unidade', img: 'https://via.placeholder.com/320x220/8B4513/FFFFFF?text=Velas+Palito', desc: 'R$ 1,50/unidade' },
+            { id: 2, name: 'Velas Palito (KG)', price: 20.00, unit: 'kg', img: 'https://via.placeholder.com/320x220/A0522D/FFFFFF?text=Palito+KG', desc: 'R$ 20,00/kg' },
+            { id: 3, name: 'Velas Palito Bicolor (KG)', price: 22.00, unit: 'kg', img: 'https://via.placeholder.com/320x220/FFD700/8B4513?text=Palito+Bicolor', desc: 'R$ 22,00/kg' },
+            { id: 4, name: 'Velas 7 Dias Bicolor 250g', price: 10.00, unit: 'unidade', img: 'https://via.placeholder.com/320x220/D2691E/FFFFFF?text=7+Dias+Bicolor', desc: 'R$ 10,00/unidade (250g)' },
+            { id: 5, name: 'Velas 7 Dias de Mel 250g', price: 12.00, unit: 'unidade', img: 'https://via.placeholder.com/320x220/daa520/000?text=7+Dias+Mel', desc: 'R$ 12,00/unidade (250g)' },
+            { id: 6, name: 'Caixa 6 Velas 7 Dias Bicolor 250g', price: 48.00, unit: 'caixa', img: 'https://via.placeholder.com/320x220/FF69B4/FFFFFF?text=Caixa+6+Bicolor', desc: 'R$ 48,00/caixa' },
+            { id: 7, name: 'Caixa 6 Velas 7 Dias 250g', price: 36.00, unit: 'caixa', img: 'https://via.placeholder.com/320x220/8B4513/FFFFFF?text=Caixa+6+Velas', desc: 'R$ 36,00/caixa' },
+            { id: 8, name: 'Caixa 100 Velas Palito Bicolor', price: 74.00, unit: 'caixa', img: 'https://via.placeholder.com/320x220/FFD700/8B4513?text=Caixa+100+Bicolor', desc: 'R$ 74,00/caixa' },
+            { id: 9, name: 'Caixa 100 Velas Palito', price: 70.00, unit: 'caixa', img: 'https://via.placeholder.com/320x220/A0522D/FFFFFF?text=Caixa+100+Palito', desc: 'R$ 70,00/caixa' }
+        ];
 
-  <div class="card">
-    <h3>Vela 7 dias Bicolor (250g)</h3>
-    <p class="price">R$ 10,00</p>
-    <button onclick="addCarrinho('Vela 7 dias Bicolor', 10)">Adicionar</button>
-  </div>
+        let cart = [];
 
-  <div class="card">
-    <h3>Vela 7 dias Mel (250g)</h3>
-    <p class="price">R$ 12,00</p>
-    <button onclick="addCarrinho('Vela 7 dias Mel', 12)">Adicionar</button>
-  </div>
+        // Renderizar produtos
+        function renderProducts() {
+            const container = document.getElementById('products');
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.img}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/320x220/f0f0f0/8B4513?text=${product.name.replace(/\\s/g,'+')}';">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>${product.desc}</p>
+                        <div class="price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
+                        <input type="number" class="quantity-input" value="1" min="1" onchange="updateQuantity(${product.id}, this.value)">
+                        <button class="btn" onclick="addToCart(${product.id})">${product.unit === 'unidade' ? 'Adicionar' : 'Adicionar Caixa'}</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-</div>
+        function updateQuantity(id, quantity) {
+            const product = cart.find(item => item.id === id);
+            if (product) {
+                product.quantity = parseInt(quantity) || 1;
+                updateCart();
+            }
+        }
 
-<h2>Caixas</h2>
+        // Carrinho
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const quantityInput = document.querySelector(`[onchange="updateQuantity(${id}, this.value)"]`);
+            const quantity = parseInt(quantityInput.value) || 1;
+            
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.quantity += quantity;
+            } else {
+                cart.push({ ...product, quantity: quantity });
+            }
+            updateCart();
+            quantityInput.value = 1; // Reset input
+        }
 
-<div class="container">
+        function updateCart() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+            
+            const items = document.getElementById('cart-items');
+            items.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        <small>x${item.quantity} ${item.unit}</small>
+                    </div>
+                    <div>
+                        R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}
+                        <button onclick="removeFromCart(${item.id})">Remover</button>
+                    </div>
+                </div>
+            `).join('') || '<p style="text-align:center;color:#666;">Carrinho vazio</p>';
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cart-total').textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
 
-  <div class="card">
-    <h3>Caixa 6 velas 7 dias Bicolor</h3>
-    <p class="price">R$ 48,00</p>
-    <button onclick="addCarrinho('Caixa 6 velas bicolor', 48)">Adicionar</button>
-  </div>
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
 
-  <div class="card">
-    <h3>Caixa 6 velas 7 dias</h3>
-    <p class="price">R$ 36,00</p>
-    <button onclick="addCarrinho('Caixa 6 velas', 36)">Adicionar</button>
-  </div>
+        // Eventos
+        document.getElementById('cart-icon').addEventListener('click', () => {
+            document.getElementById('cart').classList.toggle('open');
+        });
+        
+        document.getElementById('close-cart').addEventListener('click', () => {
+            document.getElementById('cart').classList.remove('open');
+        });
 
-  <div class="card">
-    <h3>Caixa 100 velas palito bicolor</h3>
-    <p class="price">R$ 74,00</p>
-    <button onclick="addCarrinho('Caixa 100 velas bicolor', 74)">Adicionar</button>
-  </div>
-
-  <div class="card">
-    <h3>Caixa 100 velas palito</h3>
-    <p class="price">R$ 70,00</p>
-    <button onclick="addCarrinho('Caixa 100 velas', 70)">Adicionar</button>
-  </div>
-
-</div>
-
-<div class="carrinho">
-  <h2>🛒 Carrinho</h2>
-  <ul id="carrinho"></ul>
-  <h3>Total: R$ <span id="total">0</span></h3>
-
-  <button class="finalizar" onclick="finalizar()">Finalizar no WhatsApp</button>
-</div>
-
-<script>
-  let carrinho = [];
-  let total = 0;
-
-  function addCarrinho(nome, preco) {
-    carrinho.push(nome + ' - R$ ' + preco);
-    total += preco;
-    atualizar();
-  }
-
-  function atualizar() {
-    let lista = document.getElementById('carrinho');
-    lista.innerHTML = '';
-
-    carrinho.forEach(item => {
-      let li = document.createElement('li');
-      li.textContent = item;
-      lista.appendChild(li);
-    });
-
-    document.getElementById('total').textContent = total.toFixed(2);
-  }
-
-  function finalizar() {
-    let mensagem = "Pedido:%0A";
-
-    carrinho.forEach(item => {
-      mensagem += "- " + item + "%0A";
-    });
-
-    mensagem += "%0ATotal: R$ " + total.toFixed(2);
-
-    let numero = "5511986339143";
-
-    window.open(`https://wa.me/${numero}?text=${mensagem}`);
-  }
-</script>
-
-</body>
-</html>
+        document.getElementById('checkout').addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Adicione produtos ao carrinho primeiro!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const itemsList = cart.map(item => 
+                `• ${item.name}: ${item.quantity} ${item.unit} = R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}`
+            ).join('\n');
+            
+            const message = `🛒 *NOVO PEDIDO PELO SITE*\n\n${itemsList}\n\n💰 *TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n\n📦 Qual o endereço para entrega?\n⏰ Forma de pagamento?`;
+            
+            window.open(`https://wa.me/5511986339143?text=${encodeURIComponent(message)}`, '_blank');
+            cart = []; 
+            updateCart();
+            document.getElementById('cart').classList.remove('open');
+            alert('Pedido enviado para o WhatsApp! 😊');
